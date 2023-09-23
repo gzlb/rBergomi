@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry]
+name = "rbergomi"
+version = "0.1.0"
+description = "A project for rBergomi pricing and calibrating"
+authors = ["gzlb"]
+
+
+[tool.poetry.dependencies]
+python = "^3.6"
+numpy = "^1.0"
+matplotlib = "^3.0"
+
+
