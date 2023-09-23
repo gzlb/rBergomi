@@ -1,0 +1,17 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.0.1
+  hooks:
+  - id: check-executables-have-shebangs
+  - id: check-shebang-scripts-are-executable
+  - id: sort-packages
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: 'v0.0.257'
+  hooks:
+    - id: ruff
+      args: ["--select", "E,F,I", "--fix"]
+- repo: https://github.com/psf/black
+  rev: 23.1.0
+  hooks:
+  - id: black
+    args: [--config=./pyproject.toml]
