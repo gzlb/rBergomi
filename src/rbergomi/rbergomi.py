@@ -14,7 +14,7 @@ class PricePath:
     V: np.ndarray
 
 class AbstractRBergomi(ABC):
-    def __init__(self, n=100, N=1000, T=1.0, a=-0.4, rho=0.0):
+    def __init__(self, n:int, N:int, T:float, a:float, rho:float):
         self.n = n  # Granularity (steps per year)
         self.N = N  # Paths
         self.T = T  # Maturity
