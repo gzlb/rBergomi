@@ -7,20 +7,20 @@ from dataclasses import dataclass
 class RBergomiUtils:
     a: float
 
-    def g(self, x):
+    def g(self, x:float) -> float:
         """
         TBSS kernel applicable to the rBergomi variance process.
         """
         return x ** self.a
 
-    def b(self, k):
+    def b(self, k:float) -> float:
         """
         Optimal discretisation of TBSS process for minimizing hybrid scheme error.
         """
         return ((k ** (self.a + 1) - (k - 1) ** (self.a + 1)) / (self.a + 1)) ** (1 / self.a)
 
     @staticmethod
-    def cov(a, n):
+    def cov(a, n:int) -> np.ndarray:
         """
         Covariance matrix for given alpha and n, assuming kappa = 1 for tractability.
         """
@@ -32,16 +32,13 @@ class RBergomiUtils:
         return cov
 
     @staticmethod
-    def bs(F, K, V, o='call'):
+    def bs(F: float, K: float, V: float, o: str) -> float:
         """
         Returns the Black call price for given forward, strike, and integrated variance.
         """
-        # Set appropriate weight for option token o
-        w = 1
-        if o == 'put':
-            w = -1
-        elif o == 'otm':
-            w = 2 * (K > 1.0) - 1
+        option_mapping = {'call': 1, 'put': -1, 'otm': 2 * (K > 1.0) - 1}
+        
+        w = option_mapping.get(o, 0)
 
         sv = np.sqrt(V)
         d1 = np.log(F / K) / sv + 0.5 * sv
@@ -50,16 +47,13 @@ class RBergomiUtils:
         return P
 
     @staticmethod
-    def bsinv(P, F, K, t, o='call'):
+    def bsinv(P: float, F: float, K: float, t: float, o: str) -> float:
         """
         Returns implied Black vol from the given call price, forward, strike, and time to maturity.
         """
-        # Set appropriate weight for option token o
-        w = 1
-        if o == 'put':
-            w = -1
-        elif o == 'otm':
-            w = 2 * (K > 1.0) - 1
+        option_mapping = {'call': 1, 'put': -1, 'otm': 2 * (K > 1.0) - 1}
+        
+        w = option_mapping.get(o, 0)
 
         # Ensure at least intrinsic value
         P = np.maximum(P, np.maximum(w * (F - K), 0))
